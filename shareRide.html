@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RideConnect | Next-Gen Ride Sharing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #6c5ce7;
+            --secondary: #a29bfe;
+            --accent: #fd79a8;
+            --dark: #2d3436;
+            --light: #f5f6fa;
+            --success: #00b894;
+            --warning: #fdcb6e;
+            --danger: #d63031;
+            --gradient: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+            --neon-glow: 0 0 10px rgba(108, 92, 231, 0.8), 0 0 20px rgba(108, 92, 231, 0.6), 0 0 30px rgba(108, 92, 231, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(108, 92, 231, 0.1) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(253, 121, 168, 0.1) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Rider Profile Styles */
+      .rider-profile-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1rem 2rem 0;
+      }
+
+      .rider-profile-card {
+        display: flex;
+        align-items: center;
+        background: rgba(45, 52, 54, 0.7);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        padding: 1.5rem;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(108, 92, 231, 0.3);
+        transition: all 0.3s ease;
+        margin-bottom: 1rem;
+      }
+
+      .rider-profile-card:hover {
+        box-shadow: 0 15px 40px rgba(108, 92, 231, 0.2);
+        border: 1px solid rgba(108, 92, 231, 0.5);
+      }
+
+      .rider-profile-img-container {
+        margin-right: 1.5rem;
+      }
+
+      .rider-profile-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid var(--primary);
+        box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.2);
+      }
+
+      .rider-profile-info h3 {
+        color: var(--light);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+      }
+
+      .rider-profile-info p {
+        color: var(--secondary);
+        font-size: 0.9rem;
+      }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1s;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: var(--neon-glow);
+        }
+
+        .tagline {
+            font-size: 1rem;
+            color: var(--secondary);
+            opacity: 0.8;
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 2rem;
+            animation: fadeIn 1.5s;
+        }
+
+        .ride-form {
+            background: rgba(45, 52, 54, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .ride-form:hover {
+            box-shadow: 0 15px 40px rgba(108, 92, 231, 0.2);
+            border: 1px solid rgba(108, 92, 231, 0.5);
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            background: rgba(245, 246, 250, 0.1);
+            color: var(--light);
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--primary);
+        }
+
+        .form-input:focus {
+            outline: none;
+            background: rgba(245, 246, 250, 0.2);
+            border-left: 3px solid var(--accent);
+            box-shadow: 0 0 15px rgba(108, 92, 231, 0.3);
+        }
+
+        .vehicle-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .vehicle-option {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .vehicle-radio {
+            position: absolute;
+            opacity: 0;
+        }
+
+        .vehicle-label {
+            display: block;
+            padding: 1.5rem 1rem;
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .vehicle-radio:checked + .vehicle-label {
+            background: rgba(108, 92, 231, 0.3);
+            border: 2px solid var(--primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        .vehicle-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+        }
+
+        .vehicle-name {
+            font-weight: 600;
+        }
+
+        .seat-selector {
+            display: flex;
+            justify-content: space-evenly;
+            margin-bottom: 1.5rem;
+        }
+
+        .seat-button {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(108, 92, 231, 0.1);
+            border: 1px solid var(--secondary);
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .seat-button.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+            box-shadow: var(--neon-glow);
+        }
+
+        .submit-button {
+            width: 100%;
+            padding: 1.2rem;
+            border-radius: 10px;
+            border: none;
+            background: var(--gradient);
+            color: var(--light);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(108, 92, 231, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(108, 92, 231, 0.6);
+        }
+
+        .submit-button:active {
+            transform: translateY(1px);
+        }
+
+        .available-rides {
+            background: rgba(45, 52, 54, 0.7);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(108, 92, 231, 0.3);
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .rides-title {
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .ride-card {
+            background: rgba(45, 52, 54, 0.9);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary);
+            cursor: pointer;
+        }
+
+        .ride-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            border-left: 4px solid var(--accent);
+        }
+
+        .ride-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .ride-vehicle {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        .ride-seats {
+            background: var(--primary);
+            color: var(--light);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .ride-details {
+            margin-bottom: 1rem;
+        }
+
+        .ride-location {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        .dot-start {
+            background: var(--success);
+        }
+
+        .dot-end {
+            background: var(--accent);
+        }
+
+        .ride-driver {
+            display: flex;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(108, 92, 231, 0.3);
+        }
+
+        .driver-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--gradient);
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+
+        .driver-info {
+            flex: 1;
+        }
+
+        .driver-name {
+            font-weight: 600;
+        }
+
+        .driver-rating {
+            color: var(--warning);
+            font-size: 0.9rem;
+        }
+
+        .ride-price {
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--accent);
+        }
+
+        .no-rides {
+            text-align: center;
+            padding: 2rem;
+            color: var(--secondary);
+            opacity: 0.7;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--dark);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--primary);
+            transform: scale(0.9);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .modal.active {
+            transform: scale(1);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-close:hover {
+            color: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .modal-content {
+            margin-bottom: 2rem;
+        }
+
+        .modal-location {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .location-item {
+            display: flex;
+            align-items: center;
+        }
+
+        .location-icon {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .icon-start {
+            color: var(--success);
+        }
+
+        .icon-end {
+            color: var(--accent);
+        }
+
+        .fare-input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            background: rgba(245, 246, 250, 0.1);
+            color: var(--light);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+            border-left: 3px solid var(--primary);
+        }
+
+        .fare-input:focus {
+            outline: none;
+            background: rgba(245, 246, 250, 0.2);
+            border-left: 3px solid var(--accent);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .modal-button {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .button-primary {
+            background: var(--primary);
+            color: var(--light);
+        }
+
+        .button-primary:hover {
+            background: var(--secondary);
+        }
+
+        .button-secondary {
+            background: transparent;
+            color: var(--secondary);
+            border: 1px solid var(--secondary);
+        }
+
+        .button-secondary:hover {
+            background: rgba(108, 92, 231, 0.1);
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: var(--light);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            transform: translateX(150%);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .notification.active {
+            transform: translateX(0);
+        }
+
+        .location-permission {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: var(--dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .permission-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+        }
+
+        .permission-text {
+            margin-bottom: 2rem;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+
+        .permission-button {
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            border: none;
+            background: var(--primary);
+            color: var(--light);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .permission-button:hover {
+            background: var(--secondary);
+        }
+
+        /* Map Container */
+        .map-container {
+            height: 300px;
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            border: 1px solid rgba(108, 92, 231, 0.3);
+        }
+
+        /* Animations */
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo {
+                margin-bottom: 0.5rem;
+            }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(108, 92, 231, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--secondary);
+        }
+    </style>
+</head>
+<body>
+    <!-- Location Permission Modal -->
+    <div class="location-permission" id="locationPermission">
+        <div class="permission-content">
+            <h1 class="permission-title">Welcome to RideConnect</h1>
+            <p class="permission-text">To provide you with the best ride sharing experience, we need access to your current location. This helps us find rides near you and calculate accurate fares.</p>
+            <button class="permission-button pulse" id="allowLocation">Allow Location Access</button>
+        </div>
+    </div>
+
+    <!-- Rider Profile Card -->
+    <div class="rider-profile-container">
+      <div class="rider-profile-card">
+        <div class="rider-profile-img-container">
+          <img id="rider-profile-img" src="" alt="Rider Profile Image" class="rider-profile-img">
+        </div>
+        <div class="rider-profile-info">
+          <h3 id="rider-profile-name">Loading...</h3>
+          <p id="rider-profile-phone">Phone: Loading...</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content (hidden until location is allowed) -->
+    <div class="container" id="mainContainer" style="display: none;">
+        <header class="header">
+            <div>
+                <h1 class="logo">RideConnect</h1>
+                <p class="tagline">Next-generation ride sharing at your fingertips</p>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="ride-form">
+                <h2 class="form-title">Find Your Ride</h2>
+                <form id="rideForm">
+                    <div class="form-group">
+                        <label for="currentLocation" class="form-label">Current Location</label>
+                        <input type="text" id="currentLocation" class="form-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="destination" class="form-label">Destination</label>
+                        <input type="text" id="destination" class="form-input" placeholder="Where are you going?" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Vehicle Type</label>
+                        <div class="vehicle-options">
+                            <div class="vehicle-option">
+                                <input type="radio" name="vehicle" id="auto" value="auto" class="vehicle-radio" checked>
+                                <label for="auto" class="vehicle-label">
+                                    <div class="vehicle-icon">🛺</div>
+                                    <div class="vehicle-name">Auto Rickshaw</div>
+                                </label>
+                            </div>
+                            <div class="vehicle-option">
+                                <input type="radio" name="vehicle" id="car" value="car" class="vehicle-radio">
+                                <label for="car" class="vehicle-label">
+                                    <div class="vehicle-icon">🚗</div>
+                                    <div class="vehicle-name">Car</div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Seats Needed</label>
+                        <div class="seat-selector">
+                            <div class="seat-button" data-seats="1">1</div>
+                            <div class="seat-button" data-seats="2">2</div>
+                        </div>
+                    </div>
+                    <button type="submit" class="submit-button float">Find Rides</button>
+                </form>
+            </div>
+
+            <div class="available-rides">
+                <h2 class="rides-title">Available Rides</h2>
+                <div id="ridesContainer">
+                    <div class="no-rides">
+                        <p>Enter your destination and search for available rides</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Ride Details Modal -->
+    <div class="modal-overlay" id="rideModal">
+        <div class="modal">
+            <button class="modal-close" id="closeModal">&times;</button>
+            <h2 class="modal-title">Ride Details</h2>
+            <div class="modal-content">
+                <div class="modal-location">
+                    <div class="location-item">
+                        <div class="location-icon icon-start">📍</div>
+                        <div>
+                            <div class="form-label">Pickup Location</div>
+                            <div id="modalCurrentLocation"></div>
+                        </div>
+                    </div>
+                    <div class="location-item">
+                        <div class="location-icon icon-end">🏁</div>
+                        <div>
+                            <div class="form-label">Destination</div>
+                            <div id="modalDestination"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="fareAmount" class="form-label">Enter Your Fare Offer (PKR)</label>
+                    <input type="number" id="fareAmount" class="fare-input" placeholder="e.g. 500" required>
+                </div>
+                <div class="modal-actions">
+                    <button class="modal-button button-secondary" id="cancelRide">Cancel</button>
+                    <button class="modal-button button-primary" id="confirmRide">Send Request</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Driver Details Modal -->
+    <div class="modal-overlay" id="driverModal">
+        <div class="modal">
+            <div class="request-container">
+        <div class="header-bar">
+            <h2><i class="fas fa-car"></i> Ride Requests</h2>
+            <div class="notification-container">
+                <div id="notificationBell" class="notification-bell">
+                    <i class="fas fa-bell"></i>
+                    <span id="notificationBadge" class="notification-badge"></span>
+                </div>
+                <div id="notificationDropdown" class="notification-dropdown">
+                    <div class="notification-header">
+                        <h3>Notifications</h3>
+                        <button id="clearNotifications" class="clear-btn">Clear All</button>
+                    </div>
+                    <div id="notificationList" class="notification-list"></div>
+                </div>
+            </div>
+        </div>
+        <div id="requests">
+            <!-- Requests will appear here dynamically -->
+        </div>
+        
+    </div>
+
+    <!-- Expanded Card View -->
+    <div class="expanded-card">
+      
+        <div class="card-3d">
+            <button class="back-btn">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="rider-header">
+                <img src="" alt="Rider" class="rider-image" id="expandedRiderImage">
+                <div class="rider-info">
+                    <h2 id="expandedRiderName"></h2>
+                </div>
+            </div>
+            <div class="details-section">
+                <div class="detail-item">
+                    <i class="fas fa-phone"></i>
+                    <span class="label">Phone:</span>
+                    <span class="value" id="expandedRiderPhone"></span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span class="label">Pickup:</span>
+                    <span class="value" id="expandedPickup"></span>
+                </div>
+                <div class="detail-item">
+                    <i class="fas fa-flag"></i>
+                    <span class="label">Destination:</span>
+                    <span class="value" id="expandedDestination"></span>
+                </div>
+            </div>
+            <div class="vehicle-display">
+                <i class="fas fa-car vehicle-icon" id="vehicleIcon"></i>
+                <div class="vehicle-info">
+                    <h3 id="vehicleType"></h3>
+                    <p id="vehicleDesc"></p>
+                </div>
+                <div class="seats-info">
+                    <span class="seats-label">Seats Available</span>
+                    <div class="seats" id="seatsContainer"></div>
+                </div>
+            </div>
+            <div class="fare-section">
+                <h3><i class="fas fa-money-bill-wave"></i> Fare Details</h3>
+                <div class="fare-update">
+                    <div class="current-fare">
+                        <span class="label">Current Fare</span>
+                        <span class="amount" id="currentFare">PKR 0</span>
+                    </div>
+                    <div class="new-fare">
+                        <input type="number" placeholder="0" id="newFareInput" min="0">
+                    </div>
+                </div>
+            </div>
+            <div class="action-buttons">
+                <button class="cancel-btn" id="cancelBtn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+                <button class="accept-btn" id="acceptBtn">
+                    <i class="fas fa-check"></i> Accept
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Acceptance Popup -->
+    <div class="acceptance-popup">
+        <i class="fas fa-check-circle"></i>
+        <span>Request Accepted!</span>
+    </div>
+            <button class="modal-close" id="closeDriverModal">&times;</button>
+            <h2 class="modal-title">Driver Details</h2>
+            <div class="modal-content">
+                <div class="ride-driver" style="border: none; padding: 0; margin-bottom: 1.5rem;">
+                    <div class="driver-avatar" id="driverAvatar">D</div>
+                    <div class="driver-info">
+                        <div class="driver-name" id="driverName">David Khan</div>
+                        <div class="driver-rating" id="driverRating">★★★★☆ 4.2</div>
+                    </div>
+                    <div class="ride-price" id="driverPrice">PKR 450</div>
+                </div>
+                <div class="ride-details">
+                    <div class="ride-location">
+                        <div class="dot dot-start"></div>
+                        <div id="driverCurrentLocation">Your Location</div>
+                    </div>
+                    <div class="ride-location">
+                        <div class="dot dot-end"></div>
+                        <div id="driverDestinationLocation">Destination Location</div>
+                    </div>
+                </div>
+                <div class="form-group" style="margin-top: 2rem;">
+                    <label class="form-label">Vehicle Details</label>
+                    <div id="driverVehicleDetails">Toyota Corolla - White (LEO-2020)</div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Available Seats</label>
+                    <div id="driverAvailableSeats">3 seats available</div>
+                </div>
+                <div class="modal-actions" style="margin-top: 2rem;">
+                    <button class="modal-button button-primary" id="acceptRide">Accept Ride</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        Your ride request has been accepted! Driver is on the way.
+    </div>
+
+    <!-- Google Maps API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBOLanVMv6TpHj1LZPwwF9o2kGV3fKBNCk&libraries=places&callback=initMap" async defer></script>
+
+    <script>
+        // DOM Elements
+        const locationPermission = document.getElementById('locationPermission');
+        const mainContainer = document.getElementById('mainContainer');
+        const allowLocationBtn = document.getElementById('allowLocation');
+        const currentLocationInput = document.getElementById('currentLocation');
+        const destinationInput = document.getElementById('destination');
+        const rideForm = document.getElementById('rideForm');
+        const ridesContainer = document.getElementById('ridesContainer');
+        const rideModal = document.getElementById('rideModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalCurrentLocation = document.getElementById('modalCurrentLocation');
+        const modalDestination = document.getElementById('modalDestination');
+        const fareAmount = document.getElementById('fareAmount');
+        const confirmRide = document.getElementById('confirmRide');
+        const cancelRide = document.getElementById('cancelRide');
+        const driverModal = document.getElementById('driverModal');
+        const closeDriverModal = document.getElementById('closeDriverModal');
+        const driverName = document.getElementById('driverName');
+        const driverRating = document.getElementById('driverRating');
+        const driverPrice = document.getElementById('driverPrice');
+        const driverCurrentLocation = document.getElementById('driverCurrentLocation');
+        const driverDestinationLocation = document.getElementById('driverDestinationLocation');
+        const driverVehicleDetails = document.getElementById('driverVehicleDetails');
+        const driverAvailableSeats = document.getElementById('driverAvailableSeats');
+        const acceptRide = document.getElementById('acceptRide');
+        const notification = document.getElementById('notification');
+
+        document.addEventListener("DOMContentLoaded", function() {
+    // Wait for all elements to be available
+    setTimeout(() => {
+        // Setup UI event listeners
+        const backBtn = document.querySelector(".back-btn");
+        const cancelBtn = document.getElementById("cancelBtn");
+        const acceptBtn = document.getElementById("acceptBtn");
+        const newFareInput = document.getElementById("newFareInput");
+        const notificationBell = document.getElementById("notificationBell");
+        const notificationDropdown = document.getElementById("notificationDropdown");
+        const clearNotificationsBtn = document.getElementById("clearNotifications");
+
+        // Close expanded card
+        function closeCard() {
+            const expandedCard = document.querySelector(".expanded-card");
+            if (expandedCard) {
+                expandedCard.classList.remove("active");
+                document.body.style.overflow = "auto";
+            }
+        }
+
+        // Add event listeners only if elements exist
+        if (backBtn) backBtn.addEventListener("click", closeCard);
+        if (cancelBtn) cancelBtn.addEventListener("click", closeCard);
+
+        // Accept ride
+        if (acceptBtn) {
+            acceptBtn.addEventListener("click", function() {
+                if (window.driverNode && window.driverNode.currentRide) {
+                    const updatedFare = newFareInput.value || window.driverNode.currentRide.fare;
+                    window.driverNode.acceptRide(updatedFare);
+                }
+            });
+        }
+
+        // Notification bell functionality
+        if (notificationBell) {
+            notificationBell.addEventListener("click", function(e) {
+                e.stopPropagation();
+                if (notificationDropdown) {
+                    notificationDropdown.classList.toggle("show");
+                }
+                if (window.driverNode) {
+                    window.driverNode.markNotificationsAsRead();
+                }
+            });
+        }
+
+        // Clear notifications
+        if (clearNotificationsBtn) {
+            clearNotificationsBtn.addEventListener("click", function(e) {
+                e.stopPropagation();
+                const notificationList = document.getElementById("notificationList");
+                if (notificationList) {
+                    notificationList.innerHTML = "";
+                }
+            });
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener("click", function() {
+            if (notificationDropdown) {
+                notificationDropdown.classList.remove("show");
+            }
+        });
+
+        // Prevent dropdown from closing when clicking inside it
+        if (notificationDropdown) {
+            notificationDropdown.addEventListener("click", function(e) {
+                e.stopPropagation();
+            });
+        }
+    }, 100); // Small delay to ensure all elements are loaded
+});
+
+        // Global variables
+        let map;
+        let geocoder;
+        let userPosition = null;
+        let autocomplete;
+
+        // Initialize Google Maps
+        function initMap() {
+            geocoder = new google.maps.Geocoder();
+            
+            // Initialize destination autocomplete
+            autocomplete = new google.maps.places.Autocomplete(
+                destinationInput,
+                {
+                    types: ['geocode'],
+                    componentRestrictions: {country: 'pk'}
+                }
+            );
+        }
+
+        // Fetch rider data from sessionStorage/localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            try {
+                // Try to get from sessionStorage first (more secure)
+                const riderData = JSON.parse(sessionStorage.getItem('currentRider')) || 
+                                JSON.parse(localStorage.getItem('currentRider')) || 
+                                JSON.parse(sessionStorage.getItem('rideRequestData')) || 
+                                {};
+
+                // Set profile image
+                const profileImg = document.getElementById('rider-profile-img');
+                if (riderData.profilePicUrl) {
+                    profileImg.src = riderData.profilePicUrl;
+                } else if (riderData.riderProfilePic) {
+                    profileImg.src = riderData.riderProfilePic;
+                } else {
+                    profileImg.src = 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png';
+                }
+
+                // Set rider name
+                const nameElement = document.getElementById('rider-profile-name');
+                if (riderData.firstName && riderData.lastName) {
+                    nameElement.textContent = `${riderData.firstName} ${riderData.lastName}`;
+                } else if (riderData.riderName) {
+                    nameElement.textContent = riderData.riderName;
+                }
+
+                // Set phone number
+                const phoneElement = document.getElementById('rider-profile-phone');
+                if (riderData.contactNumber) {
+                    phoneElement.textContent = `Phone: ${riderData.contactNumber}`;
+                } else if (riderData.riderPhone) {
+                    phoneElement.textContent = `Phone: ${riderData.riderPhone}`;
+                }
+            } catch (e) {
+                console.error('Error loading rider profile:', e);
+            }
+        });
+
+        // Seat selection
+        const seatButtons = document.querySelectorAll('.seat-button');
+        let selectedSeats = 1;
+
+        seatButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                seatButtons.forEach(btn => btn.classList.remove('selected'));
+                button.classList.add('selected');
+                selectedSeats = parseInt(button.dataset.seats);
+            });
+        });
+
+        // Default select first seat button
+        seatButtons[0].classList.add('selected');
+
+        // Location permission
+        allowLocationBtn.addEventListener('click', () => {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        // Success - get high accuracy position
+                        userPosition = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+                        
+                        // Get address from coordinates
+                        geocodePosition(userPosition);
+                        
+                        // Hide permission modal and show main content
+                        locationPermission.style.display = 'none';
+                        mainContainer.style.display = 'block';
+                        
+                        // Initialize map with user's location
+                        initUserMap(userPosition);
+                    },
+                    (error) => {
+                        // Error handling
+                        console.error('Error getting location:', error);
+                        if (error.code === error.PERMISSION_DENIED) {
+                            // User denied permission
+                            currentLocationInput.value = 'Location access denied - Please enable location services';
+                            locationPermission.style.display = 'none';
+                            mainContainer.style.display = 'block';
+                        } else {
+                            // Other errors (timeout, position unavailable)
+                            currentLocationInput.value = 'Unable to determine location - Please try again';
+                            locationPermission.style.display = 'none';
+                            mainContainer.style.display = 'block';
+                        }
+                    },
+                    {
+                        enableHighAccuracy: true,  // Request high accuracy
+                        timeout: 10000,           // 10 seconds timeout
+                        maximumAge: 0             // Don't use cached position
+                    }
+                );
+            } else {
+                // Geolocation not supported
+                currentLocationInput.value = 'Geolocation not supported by your browser';
+                locationPermission.style.display = 'none';
+                mainContainer.style.display = 'block';
+            }
+        });
+
+        // Initialize map with user's location
+        function initUserMap(position) {
+            map = new google.maps.Map(document.createElement('div'), {
+                center: position,
+                zoom: 15
+            });
+            
+            // Add marker for user's location
+            new google.maps.Marker({
+                position: position,
+                map: map,
+                title: 'Your Location'
+            });
+        }
+
+        // Convert coordinates to address
+        function geocodePosition(position) {
+            geocoder.geocode({ location: position }, (results, status) => {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        currentLocationInput.value = results[0].formatted_address;
+                    } else {
+                        currentLocationInput.value = 'Location found but address not available';
+                    }
+                } else {
+                    currentLocationInput.value = 'Geocoder failed due to: ' + status;
+                }
+            });
+        }
+
+        // Sample ride data
+        const sampleRides = {
+            auto: [
+                {
+                    id: 1,
+                    driver: 'Ali Ahmed',
+                    rating: '4.5',
+                    price: 300,
+                    currentLocation: 'Main Boulevard, Gulberg',
+                    destination: 'Liberty Market',
+                    seats: 3,
+                    vehicle: 'Suzuki FX - 2022'
+                },
+                {
+                    id: 2,
+                    driver: 'Usman Khan',
+                    rating: '4.2',
+                    price: 350,
+                    currentLocation: 'MM Alam Road',
+                    destination: 'Packages Mall',
+                    seats: 2,
+                    vehicle: 'Honda CD 70'
+                }
+            ],
+            car: [
+                {
+                    id: 3,
+                    driver: 'David Khan',
+                    rating: '4.8',
+                    price: 450,
+                    currentLocation: 'DHA Phase 5',
+                    destination: 'Airport',
+                    seats: 4,
+                    vehicle: 'Toyota Corolla - White (LEO-2020)'
+                },
+                {
+                    id: 4,
+                    driver: 'Sarah Ahmed',
+                    rating: '4.7',
+                    price: 500,
+                    currentLocation: 'Bahria Town',
+                    destination: 'Centaurus Mall',
+                    seats: 3,
+                    vehicle: 'Honda Civic - Black (BKE-2021)'
+                }
+            ]
+        };
+
+        // Form submission
+        rideForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const destination = destinationInput.value.trim();
+            if (!destination) {
+                alert('Please enter your destination');
+                return;
+            }
+
+            const vehicleType = document.querySelector('input[name="vehicle"]:checked').value;
+            
+            // Show ride details in modal
+            modalCurrentLocation.textContent = currentLocationInput.value;
+            modalDestination.textContent = destination;
+            
+            // Open modal
+            rideModal.classList.add('active');
+            
+            // For demo, we'll populate available rides after modal is closed
+        });
+
+        // Close modal
+        closeModal.addEventListener('click', () => {
+            rideModal.classList.remove('active');
+            showAvailableRides();
+        });
+
+        cancelRide.addEventListener('click', () => {
+            rideModal.classList.remove('active');
+        });
+
+        // Show available rides
+        function showAvailableRides() {
+            const vehicleType = document.querySelector('input[name="vehicle"]:checked').value;
+            const rides = sampleRides[vehicleType];
+            
+            if (rides && rides.length > 0) {
+                ridesContainer.innerHTML = '';
+                
+                rides.forEach(ride => {
+                    const rideCard = document.createElement('div');
+                    rideCard.className = 'ride-card';
+                    rideCard.innerHTML = `
+                        <div class="ride-header">
+                            <div class="ride-vehicle">${vehicleType === 'auto' ? 'Auto Rickshaw' : 'Car'}</div>
+                            <div class="ride-seats">${ride.seats} seats</div>
+                        </div>
+                        <div class="ride-details">
+                            <div class="ride-location">
+                                <div class="dot dot-start"></div>
+                                <div>${ride.currentLocation}</div>
+                            </div>
+                            <div class="ride-location">
+                                <div class="dot dot-end"></div>
+                                <div>${ride.destination}</div>
+                            </div>
+                        </div>
+                        <div class="ride-driver">
+                            <div class="driver-avatar">${ride.driver.charAt(0)}</div>
+                            <div class="driver-info">
+                                <div class="driver-name">${ride.driver}</div>
+                                <div class="driver-rating">${'★'.repeat(Math.floor(parseFloat(ride.rating)))}${'☆'.repeat(5 - Math.floor(parseFloat(ride.rating)))} ${ride.rating}</div>
+                            </div>
+                            <div class="ride-price">PKR ${ride.price}</div>
+                        </div>
+                    `;
+                    
+                    rideCard.addEventListener('click', () => {
+                        showDriverDetails(ride);
+                    });
+                    
+                    ridesContainer.appendChild(rideCard);
+                });
+            } else {
+                ridesContainer.innerHTML = `
+                    <div class="no-rides">
+                        <p>No ${vehicleType === 'auto' ? 'auto rickshaw' : 'car'} rides available for your destination</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Show driver details
+        function showDriverDetails(ride) {
+            driverName.textContent = ride.driver;
+            driverRating.textContent = `${'★'.repeat(Math.floor(parseFloat(ride.rating)))}${'☆'.repeat(5 - Math.floor(parseFloat(ride.rating)))} ${ride.rating}`;
+            driverPrice.textContent = `PKR ${ride.price}`;
+            driverCurrentLocation.textContent = ride.currentLocation;
+            driverDestinationLocation.textContent = ride.destination;
+            driverVehicleDetails.textContent = ride.vehicle;
+            driverAvailableSeats.textContent = `${ride.seats} seat${ride.seats > 1 ? 's' : ''} available`;
+            document.getElementById('driverAvatar').textContent = ride.driver.charAt(0);
+            
+            driverModal.classList.add('active');
+            rideModal.classList.remove('active');
+        }
+
+        // Close driver modal
+        closeDriverModal.addEventListener('click', () => {
+            driverModal.classList.remove('active');
+        });
+
+        // Confirm ride
+        confirmRide.addEventListener('click', () => {
+            const fare = fareAmount.value.trim();
+            if (!fare || isNaN(fare)) {
+                alert('Please enter a valid fare amount');
+                return;
+            }
+            
+            // In a real app, you would send this to your backend
+            console.log('Ride requested with fare:', fare);
+            
+            rideModal.classList.remove('active');
+            
+            // For demo, we'll just show available rides
+            showAvailableRides();
+        });
+
+        // Accept ride
+        acceptRide.addEventListener('click', () => {
+            driverModal.classList.remove('active');
+            
+            // Show notification
+            notification.classList.add('active');
+            
+            // Hide notification after 5 seconds
+            setTimeout(() => {
+                notification.classList.remove('active');
+            }, 5000);
+        });
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check if location permission was already granted
+            if (navigator.permissions) {
+                navigator.permissions.query({name: 'geolocation'}).then(permissionStatus => {
+                    if (permissionStatus.state === 'granted') {
+                        // Permission already granted, get location immediately
+                        allowLocationBtn.click();
+                    }
+                });
+            }
+        });
+    </script>
+    <script type="module" src="/libp2p/shareRide.js"></script>
+</body>
+</html>
